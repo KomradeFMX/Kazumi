@@ -9,12 +9,33 @@ dotenv.config();
 
 //Crear el cliente
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
+    intents: [GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildPresences,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.DirectMessageTyping]
 });
 
 
 //Colección de comandos
 client.commands = new Collection();
+
+const eventsPath = path.join(__dirname, 'eventos');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
+
 
 const commandsPath = path.join(__dirname, 'comandos');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -29,32 +50,6 @@ for (const file of commandFiles) {
 		console.log(`[AVISO] El comando en ${filePath} no contiene una propiedad de "data" or "execute" necesaria.`);
 	}
 }
-
-//Ejecución comandos
-client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isChatInputCommand()) return;
-
-    const command = interaction.client.commands.get(interaction.commandName);
-
-	if (!command) {
-		console.error(`No he encontrado un comando que coincida con [ ${interaction.commandName} ]`);
-		return;
-	}
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: '¡Tuve un error ejecutando este comando! :c', ephemeral: true });
-	}
-});
-
-
-
-//Mensaje al estar listo
-client.once(Events.ClientReady, c => {
-	console.log(`¡${c.user.tag} está lista!`);
-});
 
 
 //Iniciar Sesión
