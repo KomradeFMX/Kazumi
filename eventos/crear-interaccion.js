@@ -15,7 +15,7 @@ module.exports = {
 		try {
 			await command.execute(interaction);
 		} catch (error) {
-			console.error(`Tuve un error ejecutando ${interaction.commandName}`);
+			console.error(`Tuve un error ejecutando este comando: ${interaction.commandName}`);
 			console.error(error);
 		}
 	},
