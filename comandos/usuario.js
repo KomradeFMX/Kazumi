@@ -5,7 +5,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('usuario')
 		.addUserOption(option =>
-			option.setName('miembro').setDescription('Miembro del que quieres ver la información'))
+			option.setName('miembro').setDescription('Miembro del que quieres ver la información.'))
 		.setDescription('Mira información sobre tí u otro usuario.'),
 
 	async execute(interaction) {
