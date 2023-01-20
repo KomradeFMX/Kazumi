@@ -4,8 +4,8 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('purgar')
 		.addIntegerOption(option =>
-			option.setName('mensajes').setDescription('Cantidad de mensajes que quieres borrar.').setRequired(true))
-		.setDescription('Borra mensajes en masa.')
+			option.setName('mensajes').setDescription('Cantidad de mensajes que quieres borrar').setRequired(true))
+		.setDescription('Borra mensajes en masa')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
 
 	async execute(interaction) {
