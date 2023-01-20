@@ -4,17 +4,17 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('banear')
 		.addUserOption(option =>
-			option.setName('miembro').setDescription('Miembro al que quieres sancionar.').setRequired(true))
+			option.setName('miembro').setDescription('Miembro al que quieres sancionar').setRequired(true))
         .addStringOption(option =>
-            option.setName('razón').setDescription('Razón por la que vas a banear a este usuario.'))
+            option.setName('razón').setDescription('Razón por la que vas a banear a este usuario'))
 		.setDescription('Bloquea el acceso de un usuario a este servidor.')
         .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
 	async execute(interaction) {
 
         try{
-            user = interaction.options.getUser('miembro');
-            miembro = await interaction.guild.members.fetch(user.id);
+            var user = interaction.options.getUser('miembro');
+            var miembro = await interaction.guild.members.fetch(user.id);
         }
         catch (err) {
             await interaction.reply({content: 'No parece que este usuario esté en el servidor...', ephemeral: true});
