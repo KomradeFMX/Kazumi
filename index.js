@@ -2,6 +2,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Events, GatewayIntentBits, Collection} = require('discord.js')
+const mongoose = require('./database/mondongo.js')
+const Niveles = require('discord-xp')
 const dotenv = require('dotenv');
 
 //Configurar el .env
@@ -51,6 +53,12 @@ for (const file of commandFiles) {
 	}
 }
 
+//Conexión con el módulo del MONDONGO
+Niveles.setURL(process.env.MONDONGO)
 
-//Iniciar Sesión
-client.login(process.env.TOKEN);
+mongoose.init()
+
+
+//Iniciar Sesión---------------------
+client.login(process.env.TOKEN);//  |
+//----------------------------------
