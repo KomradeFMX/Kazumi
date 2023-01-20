@@ -11,7 +11,7 @@ module.exports = {
 	once: true,
 	execute(client) {
         const commands = [];
-        // Grab all the command files from the commands directory you created earlier
+        // Leer todos los comandos
         const commandFiles = fs.readdirSync('./comandos').filter(file => file.endsWith('.js'));
 
         // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
@@ -20,15 +20,15 @@ module.exports = {
 	        commands.push(command.data.toJSON());
         }
 
-        // Construct and prepare an instance of the REST module
+        // Instancia  del modulo REST
         const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
-        // and deploy your commands!
+        // D E P L O Y
         (async () => {
 	    try {
 		    console.log(`Se están refrescando ${commands.length} (/) comandos espera...`);
 
-		    // The put method is used to fully refresh all commands in the guild with the current set
+		    // Refrescar comandos
 		    const data = await rest.put(
                 Routes.applicationCommands(process.env.clientId),
                 { body: commands },
@@ -36,7 +36,7 @@ module.exports = {
 
 		    console.log(`He refrescado con éxito ${data.length} (/) comandos c:`);
 	        } catch (error) {
-		        // And of course, make sure you catch and log any errors!
+		        // errores
 		        console.error(error);
 	        }
         })();
